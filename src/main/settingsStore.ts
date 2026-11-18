@@ -34,8 +34,21 @@ function migrateLab(
   }
 }
 
+/** OS の表示言語が日本語なら ja、それ以外は en（設定ファイルが無い初回起動時の既定） */
+function detectLanguage(): AppSettings['language'] {
+  try {
+    return app.getLocale().toLowerCase().startsWith('ja') ? 'ja' : 'en'
+  } catch {
+    return 'en'
+  }
+}
+
+function defaults(): AppSettings {
+  return { ...DEFAULT_SETTINGS, language: detectLanguage() }
+}
+
 function normalize(raw: Partial<AppSettings> | null | undefined): AppSettings {
-  const base = { ...DEFAULT_SETTINGS, ...(raw ?? {}) }
+  const base = { ...defaults(), ...(raw ?? {}) }
   return {
     version: 1,
     language: base.language === 'ja' ? 'ja' : 'en',
@@ -64,11 +77,11 @@ function normalize(raw: Partial<AppSettings> | null | undefined): AppSettings {
 
 export function loadSettings(): AppSettings {
   const path = settingsPath()
-  if (!existsSync(path)) return { ...DEFAULT_SETTINGS }
+  if (!existsSync(path)) return defaults()
   try {
     return normalize(JSON.parse(readFileSync(path, 'utf8')) as Partial<AppSettings>)
   } catch {
-    return { ...DEFAULT_SETTINGS }
+    return defaults()
   }
 }
 

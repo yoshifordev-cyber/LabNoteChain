@@ -136,6 +136,7 @@ export default function App() {
   const [composeMode, setComposeMode] = useState(false)
   const [viewMode, setViewMode] = useState(false)
   const [verifyResult, setVerifyResult] = useState<VerifyResult | null>(null)
+  const [showVerifyDialog, setShowVerifyDialog] = useState(false)
   const [status, setStatus] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [busy, setBusy] = useState(false)
@@ -1005,6 +1006,7 @@ export default function App() {
         return
       }
       setVerifyResult(res.data)
+      setShowVerifyDialog(true)
       setStatus(
         res.data.ok
           ? t(lang, 'verifyOk')
@@ -1798,6 +1800,50 @@ export default function App() {
           </span>
         )}
       </footer>
+
+      {showVerifyDialog && verifyResult && notebook && notebook.id === verifyResult.notebookId && (
+        <div className="modal-back" onClick={() => setShowVerifyDialog(false)}>
+          <div
+            className="modal verify-dialog"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-modal="true"
+          >
+            <h2>{t(lang, 'verifyResultTitle')}</h2>
+            <div className={`verify-banner ${verifyResult.ok ? 'ok' : 'bad'}`}>
+              {verifyResult.ok ? t(lang, 'verifyOk') : t(lang, 'verifyNg')}
+            </div>
+            <p className="verify-lead">
+              {verifyResult.ok
+                ? t(lang, 'verifyAllGood')
+                : t(lang, 'verifyIssuesLead').replace('{n}', String(verifyResult.issues.length))}
+            </p>
+            {!verifyResult.ok && (
+              <ul className="verify-issues">
+                {verifyResult.issues.map((issue, i) => (
+                  <li key={`${issue.code}-${i}`}>
+                    <span className="verify-code">{issue.code}</span>
+                    <span>{issue.message}</span>
+                  </li>
+                ))}
+              </ul>
+            )}
+            <dl className="verify-meta">
+              <dt>{t(lang, 'notebook')}</dt>
+              <dd>{notebook.title}</dd>
+              <dt>{t(lang, 'verifyPagesChecked')}</dt>
+              <dd>{verifyResult.entryCount}</dd>
+              <dt>{t(lang, 'verifyCheckedAt')}</dt>
+              <dd>{formatDate(verifyResult.checkedAt)}</dd>
+            </dl>
+            <div className="modal-actions">
+              <button type="button" className="btn primary" onClick={() => setShowVerifyDialog(false)}>
+                {t(lang, 'close')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {folderModal && (
         <div className="modal-back" onClick={() => !busy && setFolderModal(null)}>

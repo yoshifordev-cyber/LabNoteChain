@@ -3,8 +3,16 @@
   "version": "0.1.0",
   "description": "改ざん検知つき研究ノート（ローカル完結）",
   "main": "./out/main/index.js",
-  "author": "Integrity Lab Notebook",
+  "author": "yoshifordev-cyber",
   "license": "GPL-3.0-only",
+  "homepage": "https://github.com/yoshifordev-cyber/LabNoteChain#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoshifordev-cyber/LabNoteChain.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yoshifordev-cyber/LabNoteChain/issues"
+  },
   "scripts": {
     "postinstall": "node scripts/fix-electron-dist.mjs",
     "dev": "electron-vite dev",
@@ -51,6 +59,10 @@
       {
         "from": "resources/icon.ico",
         "to": "icon.ico"
+      },
+      {
+        "from": "LICENSE",
+        "to": "LICENSE.txt"
       }
     ],
     "win": {
@@ -61,7 +73,8 @@
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "artifactName": "LabNoteChain-Setup-${version}.${ext}"
     }
   }
 }

@@ -181,7 +181,14 @@ const ja = {
   folderModalRename: 'フォルダ名を変更',
   renameNotebook: 'ノート名を変更',
   notebookModalRename: 'ノート名を変更',
-  notebookNamePrompt: 'ノート名'
+  notebookNamePrompt: 'ノート名',
+  verifyResultTitle: '検証結果',
+  verifyAllGood:
+    'すべてのページについて、ハッシュ連鎖・添付ファイル・署名が記録どおりであることを確認しました。',
+  verifyIssuesLead:
+    '記録と一致しない箇所が {n} 件あります。この状態のノートは、保存後に内容が変更された可能性があります。',
+  verifyPagesChecked: '検査したページ数',
+  verifyCheckedAt: '検証日時'
 } as const
 
 const en: { [K in keyof typeof ja]: string } = {
@@ -365,7 +372,14 @@ const en: { [K in keyof typeof ja]: string } = {
   folderModalRename: 'Rename folder',
   renameNotebook: 'Rename notebook',
   notebookModalRename: 'Rename notebook',
-  notebookNamePrompt: 'Notebook name'
+  notebookNamePrompt: 'Notebook name',
+  verifyResultTitle: 'Verification result',
+  verifyAllGood:
+    'The hash chain, attachments, and signatures of every page match what was recorded.',
+  verifyIssuesLead:
+    '{n} item(s) do not match the record. The content of this notebook may have been changed after it was saved.',
+  verifyPagesChecked: 'Pages checked',
+  verifyCheckedAt: 'Verified at'
 }
 
 export type MessageKey = keyof typeof ja

@@ -341,37 +341,7 @@ export default function SettingsModal({
                 )}
               </fieldset>
 
-              <fieldset className="settings-block">
-                <legend>{label('cloud')}</legend>
-                <p className="settings-hint">{label('cloudHint')}</p>
-                <label className="check-row">
-                  <input
-                    type="checkbox"
-                    checked={draft.cloud.enabled}
-                    disabled={busy}
-                    onChange={(e) => void commit({ cloud: { enabled: e.target.checked } })}
-                  />
-                  {label('cloudEnable')}
-                </label>
-                <label className="field">
-                  {label('cloudEndpoint')}
-                  <input
-                    value={draft.cloud.endpoint}
-                    disabled={busy || !draft.cloud.enabled}
-                    placeholder="https://…"
-                    onChange={(e) =>
-                      setDraft((d) => ({
-                        ...d,
-                        cloud: { ...d.cloud, endpoint: e.target.value }
-                      }))
-                    }
-                    onBlur={() =>
-                      void commit({ cloud: { endpoint: draft.cloud.endpoint.trim() } })
-                    }
-                  />
-                </label>
-                <p className="settings-hint">{label('cloudComingSoon')}</p>
-              </fieldset>
+              {/* クラウド連携は未実装のため v0.1.0 では表示しない（通信は一切行わない） */}
             </>
           )}
         </div>

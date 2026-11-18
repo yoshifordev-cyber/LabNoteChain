@@ -1,0 +1,67 @@
+{
+  "name": "integrity-lab-notebook",
+  "version": "0.1.0",
+  "description": "改ざん検知つき研究ノート（ローカル完結）",
+  "main": "./out/main/index.js",
+  "author": "Integrity Lab Notebook",
+  "license": "GPL-3.0-only",
+  "scripts": {
+    "postinstall": "node scripts/fix-electron-dist.mjs",
+    "dev": "electron-vite dev",
+    "build": "electron-vite build",
+    "icons": "node scripts/make-icons.mjs",
+    "preview": "electron-vite preview",
+    "typecheck": "tsc --noEmit -p tsconfig.web.json && tsc --noEmit -p tsconfig.node.json",
+    "smoke": "node scripts/smoke-integrity.mjs",
+    "md:check": "node scripts/copy-markdown-check.mjs --clipboard",
+    "start": "npm run build && electron .",
+    "dist": "npm run build && electron-builder --win nsis"
+  },
+  "dependencies": {
+    "marked": "^18.2.1",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/marked": "^5.0.2",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@types/uuid": "^10.0.0",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^33.4.11",
+    "electron-builder": "^25.1.8",
+    "electron-vite": "^3.0.0",
+    "png-to-ico": "^3.0.2",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "sharp": "^0.35.5",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
+  },
+  "build": {
+    "appId": "jp.integrity.labnotebook",
+    "productName": "LabNoteChain",
+    "directories": {
+      "output": "release",
+      "buildResources": "build"
+    },
+    "files": [
+      "out/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "resources/icon.ico",
+        "to": "icon.ico"
+      }
+    ],
+    "win": {
+      "icon": "build/icon.ico",
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}

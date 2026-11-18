@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+  <!-- Abstract silhouette: ledger bar + interlocking seal/chain rings -->
+  <rect x="64" y="64" width="896" height="896" rx="208" ry="208" fill="#0A2F38"/>
+
+  <g fill="#E8F2F0">
+    <!-- Abstract notebook edge -->
+    <rect x="236" y="248" width="132" height="528" rx="66"/>
+
+    <!-- Seal ring (annulus) -->
+    <path fill-rule="evenodd" d="
+      M656 512
+      m-230 0 a230 230 0 1 0 460 0 a230 230 0 1 0 -460 0
+      M656 512
+      m-118 0 a118 118 0 1 1 236 0 a118 118 0 1 1 -236 0
+    "/>
+
+    <!-- Interlocking chain pill (annulus), rotated -->
+    <g transform="translate(656 512) rotate(-40)">
+      <path fill-rule="evenodd" d="
+        M-168-78 h200 a78 78 0 0 1 0 156 h-200 a78 78 0 0 1 0-156 z
+        M-100-30 h64 a30 30 0 0 1 0 60 h-64 a30 30 0 0 1 0-60 z
+      "/>
+    </g>
+  </g>
+</svg>

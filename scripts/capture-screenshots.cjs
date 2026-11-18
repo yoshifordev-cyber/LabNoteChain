@@ -8,7 +8,7 @@
  * - 実データは使わない。保存先は C:\lnc-demo（短いパス。ユーザー名が画像に写らないようにするため）。
  * - デモ用のノートを作り、1 件だけ意図的に書き換えて「検証NG」の画面も撮る。
  * - 出力: docs/images/*.png
- * - 撮影後、C:\lnc-demo と C:\LabShare を手動で削除してよい。
+ * - 撮影後、C:\lnc-demo は手動で削除してよい（共有フォルダのデモ用ディレクトリもこの中にある）。
  */
 const { app } = require('electron')
 const fs = require('fs')
@@ -17,11 +17,21 @@ const path = require('path')
 const ROOT = path.resolve(__dirname, '..')
 const OUT = path.join(ROOT, 'docs', 'images')
 const DEMO = 'C:\\lnc-demo'
-const SHARE = 'C:\\LabShare'
+const SHARE = path.join(DEMO, 'LabShare')
+const MARKER = path.join(DEMO, '.labnotechain-demo')
+
+// ---- 既存フォルダを巻き込まない: このスクリプトが作った印（MARKER）のある場所だけ作り直す ----
+if (fs.existsSync(DEMO)) {
+  if (!fs.existsSync(MARKER)) {
+    console.error(`${DEMO} は既に存在し、このスクリプトが作ったものではありません。削除または改名してから再実行してください。`)
+    process.exit(1)
+  }
+  fs.rmSync(DEMO, { recursive: true, force: true })
+}
+fs.mkdirSync(DEMO, { recursive: true })
+fs.writeFileSync(MARKER, 'created by scripts/capture-screenshots.cjs\n')
 
 // ---- 実環境のパス・ユーザー名が画像に写らないよう、ホームを差し替える ----
-if (fs.existsSync(DEMO)) fs.rmSync(DEMO, { recursive: true, force: true })
-if (fs.existsSync(SHARE)) fs.rmSync(SHARE, { recursive: true, force: true })
 const FAKE_HOME = path.join(DEMO, 'home')
 fs.mkdirSync(path.join(FAKE_HOME, 'OneDrive'), { recursive: true })
 fs.mkdirSync(path.join(FAKE_HOME, 'MEGA'), { recursive: true })
